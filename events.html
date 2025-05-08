@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Events - ACCESS Admin Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Sidebar navigation -->
+  <aside class="sidebar">
+    <div class="logo-container">
+      <img src="ACCESS.jpg" alt="ACCESS Organization Logo" class="logo">
+      <h5 class="mt-3 text-white">ACCESS</h5>
+      <p class="text-muted small">Admin Panel</p>
+    </div>
+    
+    <nav class="nav flex-column mb-auto">
+      <a href="index.html" class="nav-link">
+        <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+      </a>
+      <a href="members.html" class="nav-link">
+        <i class="bi bi-people"></i> <span>Members</span>
+      </a>
+      <a href="events.html" class="nav-link active">
+        <i class="bi bi-calendar-event"></i> <span>Events</span>
+      </a>
+      <a href="attendance.html" class="nav-link">
+        <i class="bi bi-person-check"></i> <span>Attendance</span>
+      </a>
+      <a href="announcements.html" class="nav-link">
+        <i class="bi bi-megaphone"></i> <span>Announcements</span>
+      </a>
+      <a href="gallery.html" class="nav-link">
+        <i class="bi bi-images"></i> <span>Gallery</span>
+      </a>
+      <a href="reports.html" class="nav-link">
+        <i class="bi bi-file-earmark-bar-graph"></i> <span>Reports</span>
+      </a>
+      <a href="feedback.html" class="nav-link">
+        <i class="bi bi-chat-square-text"></i> <span>Feedback</span>
+      </a>
+    </nav>
+    
+    <div class="user-container">
+      <img src="ACCESS.jpg" alt="Admin User" class="user-image">
+      <h6 class="mb-0 text-white">Admin User</h6>
+      <small class="text-white-50">Administrator</small>
+      <a href="login.html" class="btn btn-outline-light btn-sm w-100 mt-3">
+        <i class="bi bi-box-arrow-right me-1"></i> Log Out
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main content area -->
+  <main class="main-content">
+    <!-- Page header -->
+    <header class="page-header d-flex justify-content-between align-items-center">
+      <h1 class="h3 mb-0">Events Management</h1>
+      <div class="d-flex align-items-center">
+        <div class="dropdown me-3">
+          <button class="btn btn-light position-relative notification-badge shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-bell"></i>
+            <span class="badge bg-danger">3</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><h6 class="dropdown-header">Notifications</h6></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-person-plus me-2 text-success"></i> New membership request</a></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-chat-left-text me-2 text-info"></i> Event feedback received</a></li>
+            <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-up-circle me-2 text-warning"></i> System update available</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-center" href="#">View all notifications</a></li>
+          </ul>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-light d-flex align-items-center shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="ACCESS.jpg" alt="Admin" class="rounded-circle me-2" width="32" height="32">
+            <span>Administrator</span>
+            <i class="bi bi-chevron-down ms-2"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i> Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Log Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Events content -->
+    <div class="container-fluid px-0">
+      <!-- Actions bar -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="card shadow-sm">
+            <div class="card-body d-flex justify-content-between align-items-center">
+              <h5 class="card-title mb-0">Events List</h5>
+              <div class="d-flex">
+                <div class="input-group me-3" style="max-width: 300px;">
+                  <input type="text" class="form-control" placeholder="Search events...">
+                  <button class="btn btn-outline-secondary" type="button">
+                    <i class="bi bi-search"></i>
+                  </button>
+                </div>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEventModal">
+                  <i class="bi bi-plus-circle me-1"></i> Add New Event
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Filters and stats -->
+      <div class="row mb-4">
+        <div class="col-lg-8">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Event Filters</h5>
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <select class="form-select">
+                    <option selected>All Event Types</option>
+                    <option>Workshop</option>
+                    <option>Seminar</option>
+                    <option>Competition</option>
+                    <option>Meeting</option>
+                    <option>Social Gathering</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <select class="form-select">
+                    <option selected>All Status</option>
+                    <option>Upcoming</option>
+                    <option>Ongoing</option>
+                    <option>Completed</option>
+                    <option>Cancelled</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <input type="month" class="form-control">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Event Statistics</h5>
+              <div class="row text-center">
+                <div class="col-4">
+                  <h3 class="text-primary">8</h3>
+                  <p class="text-muted small mb-0">Upcoming</p>
+                </div>
+                <div class="col-4">
+                  <h3 class="text-success">4</h3>
+                  <p class="text-muted small mb-0">This Month</p>
+                </div>
+                <div class="col-4">
+                  <h3 class="text-info">28</h3>
+                  <p class="text-muted small mb-0">Total</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Events table -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                  <thead>
+                    <tr>
+                      <th>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="selectAll">
+                          <label class="form-check-label" for="selectAll"></label>
+                        </div>
+                      </th>
+                      <th>Event Name</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Venue</th>
+                      <th>Attendance</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="bg-primary rounded text-white p-2 me-2">
+                            <i class="bi bi-code-slash"></i>
+                          </div>
+                          <span>Web Development Workshop</span>
+                        </div>
+                      </td>
+                      <td>May 22, 2025</td>
+                      <td>1:00 PM - 5:00 PM</td>
+                      <td>IT Laboratory 1</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1" style="height: 7px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 84%"></div>
+                          </div>
+                          <span class="ms-2">42/50</span>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-success">Upcoming</span></td>
+                      <td>
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Actions
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i> View Details</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i> Edit Event</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-person-check me-2"></i> Manage Attendance</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Delete</a></li>
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="bg-info rounded text-white p-2 me-2">
+                            <i class="bi bi-people"></i>
+                          </div>
+                          <span>General Assembly Meeting</span>
+                        </div>
+                      </td>
+                      <td>May 15, 2025</td>
+                      <td>3:00 PM - 5:00 PM</td>
+                      <td>Auditorium</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1" style="height: 7px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 90%"></div>
+                          </div>
+                          <span class="ms-2">135/150</span>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-success">Upcoming</span></td>
+                      <td>
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Actions
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i> View Details</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i> Edit Event</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-person-check me-2"></i> Manage Attendance</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Delete</a></li>
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="bg-warning rounded text-white p-2 me-2">
+                            <i class="bi bi-trophy"></i>
+                          </div>
+                          <span>Programming Contest</span>
+                        </div>
+                      </td>
+                      <td>May 08, 2025</td>
+                      <td>9:00 AM - 4:00 PM</td>
+                      <td>Computer Labs</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1" style="height: 7px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: 70%"></div>
+                          </div>
+                          <span class="ms-2">21/30</span>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-warning text-dark">Today</span></td>
+                      <td>
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Actions
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i> View Details</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i> Edit Event</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-person-check me-2"></i> Manage Attendance</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Delete</a></li>
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="bg-success rounded text-white p-2 me-2">
+                            <i class="bi bi-cpu"></i>
+                          </div>
+                          <span>Tech Talk: AI Fundamentals</span>
+                        </div>
+                      </td>
+                      <td>May 05, 2025</td>
+                      <td>2:00 PM - 4:00 PM</td>
+                      <td>AVR Room</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1" style="height: 7px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 88%"></div>
+                          </div>
+                          <span class="ms-2">35/40</span>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-secondary">Completed</span></td>
+                      <td>
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Actions
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i> View Details</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i> Edit Event</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-person-check me-2"></i> View Attendance</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-text me-2"></i> Generate Report</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Delete</a></li>
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox">
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="bg-danger rounded text-white p-2 me-2">
+                            <i class="bi bi-robot"></i>
+                          </div>
+                          <span>Robotics Workshop</span>
+                        </div>
+                      </td>
+                      <td>April 28, 2025</td>
+                      <td>1:00 PM - 5:00 PM</td>
+                      <td>Engineering Lab</td>
+                      <td>
+                        <div class="d-flex align-items-center">
+                          <div class="progress flex-grow-1" style="height: 7px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 95%"></div>
+                          </div>
+                          <span class="ms-2">38/40</span>
+                        </div>
+                      </td>
+                      <td><span class="badge bg-secondary">Completed</span></td>
+                      <td>
+                        <div class="dropdown">
+                          <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            Actions
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i> View Details</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i> Edit Event</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-person-check me-2"></i> View Attendance</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-text me-2"></i> Generate Report</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i> Delete</a></li>
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <!-- Pagination -->
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <div>
+                  <span class="text-muted">Showing 1 to 5 of 28 entries</span>
+                </div>
+                <nav>
+                  <ul class="pagination mb-0">
+                    <li class="page-item disabled">
+                      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="#">Next</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Calendar view -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title mb-4">Event Calendar</h5>
+              <div class="calendar-container">
+                <!-- This would be where a calendar component would be rendered -->
+                <div class="alert alert-info mb-0">
+                  <i class="bi bi-info-circle me-2"></i> Calendar view will be integrated here. Click on any date to view or add events.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Event Modal -->
+  <div class="modal fade" id="addEventModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addEventModalLabel">Add New Event</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="row mb-3">
+              <div class="col-md-8">
+                <label class="form-label">Event Name</label>
+                <input type="text" class="form-control" placeholder="Enter event name">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Event Type</label>
+                <select class="form-select">
+                  <option selected>Select type</option>
+                  <option>Workshop</option>
+                  <option>Seminar</option>
+                  <option>Competition</option>
+                  <option>Meeting</option>
+                  <option>Social Gathering</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <label class="form-label">Date</label>
+                <input type="date" class="form-control">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Start Time</label>
+                <input type="time" class="form-control">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">End Time</label>
+                <input type="time" class="form-control">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Venue</label>
+                <input type="text" class="form-control" placeholder="Enter venue">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Max Participants</label>
+                <input type="number" class="form-control" placeholder="Enter max number of participants">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" rows="4" placeholder="Provide event details and description"></textarea>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="form-label">Organizer</label>
+                <input type="text" class="form-control" placeholder="Enter organizer name">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Contact Email</label>
+                <input type="email" class="form-control" placeholder="Enter contact email">
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Requirements</label>
+              <textarea class="form-control" rows="2" placeholder="Any special requirements for participants"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary">Create Event</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle (with Popper for dropdowns/tooltips) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom script (optional, for tooltips or interactivity) -->
+  <script>
+    document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) {
+      new bootstrap.Tooltip(el);
+    });
+  </script>
+</body>
+</html>
