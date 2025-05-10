@@ -108,7 +108,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
       <img src="ACCESS.jpg" alt="Admin User" class="user-image">
       <h6 class="mb-0 text-white">Admin User</h6>
       <small class="text-white-50">Administrator</small>
-      <a href="login.php" class="btn btn-outline-light btn-sm w-100 mt-3">
+      <a href="logout.php" class="btn btn-outline-light btn-sm w-100 mt-3">
         <i class="bi bi-box-arrow-right me-1"></i> Log Out
       </a>
     </div>

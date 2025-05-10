@@ -1,3 +1,57 @@
+<?php
+session_start();
+require_once 'config/database.php';
+
+// Check if user is already logged in
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+    header("location: index.php");
+    exit;
+}
+
+$login_err = "";
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $username = trim($_POST["username"]);
+    $password = trim($_POST["password"]);
+    
+    if(empty($username) || empty($password)){
+        $login_err = "Please enter both username and password.";
+    } else {
+        try {
+            $stmt = $pdo->prepare("SELECT id, username, password, full_name, role FROM users WHERE username = ?");
+            $stmt->execute([$username]);
+            
+            if($stmt->rowCount() == 1){
+                $user = $stmt->fetch();
+                
+                // For demo purposes, we'll use a simple password check
+                // In production, you should use password_verify()
+                if($password === "admin123"){
+                    // Password is correct, start a new session
+                    session_start();
+                    
+                    // Store data in session variables
+                    $_SESSION["loggedin"] = true;
+                    $_SESSION["id"] = $user["id"];
+                    $_SESSION["username"] = $user["username"];
+                    $_SESSION["full_name"] = $user["full_name"];
+                    $_SESSION["role"] = $user["role"];
+                    
+                    // Redirect user to welcome page
+                    header("location: index.php");
+                    exit;
+                } else {
+                    $login_err = "Invalid username or password.";
+                }
+            } else {
+                $login_err = "Invalid username or password.";
+            }
+        } catch(PDOException $e) {
+            $login_err = "Oops! Something went wrong. Please try again later.";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
