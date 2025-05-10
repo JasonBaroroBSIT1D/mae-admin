@@ -1,3 +1,60 @@
+<?php
+session_start();
+
+// Check if user is not logged in
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    // Check if login form was submitted
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        require_once "config/database.php";
+        
+        $username = trim($_POST['username']);
+        $password = $_POST['password'];
+        
+        // Prepare a select statement
+        $sql = "SELECT id, username, password FROM users WHERE username = :username";
+        
+        if($stmt = $pdo->prepare($sql)) {
+            $stmt->bindParam(":username", $username, PDO::PARAM_STR);
+            
+            if($stmt->execute()) {
+                if($stmt->rowCount() == 1) {
+                    if($row = $stmt->fetch()) {
+                        $id = $row["id"];
+                        $username = $row["username"];
+                        $hashed_password = $row["password"];
+                        
+                        if(password_verify($password, $hashed_password)) {
+                            // Password is correct, start a new session
+                            session_start();
+                            
+                            // Store data in session variables
+                            $_SESSION["loggedin"] = true;
+                            $_SESSION["id"] = $id;
+                            $_SESSION["username"] = $username;
+                            
+                            // Redirect to dashboard
+                            header("location: index.php");
+                            exit;
+                        } else {
+                            $login_err = "Invalid username or password.";
+                        }
+                    }
+                } else {
+                    $login_err = "Invalid username or password.";
+                }
+            } else {
+                $login_err = "Oops! Something went wrong. Please try again later.";
+            }
+            
+            unset($stmt);
+        }
+    }
+    
+    // If not logged in, show login page
+    include 'login.php';
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,28 +78,28 @@
     </div>
     
     <nav class="nav flex-column mb-auto">
-      <a href="index.html" class="nav-link active">
+      <a href="index.php" class="nav-link active">
         <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
       </a>
-      <a href="members.html" class="nav-link">
+      <a href="members.php" class="nav-link">
         <i class="bi bi-people"></i> <span>Members</span>
       </a>
-      <a href="events.html" class="nav-link">
-        <i class="bi bi-calendar-event"></i> <span>Events</span>
+     <a href="services.php" class="nav-link ">
+        <i class="bi bi-tools"></i> <span>Services</span>
       </a>
-      <a href="attendance.html" class="nav-link">
+      <a href="attendance.php" class="nav-link">
         <i class="bi bi-person-check"></i> <span>Attendance</span>
       </a>
-      <a href="announcements.html" class="nav-link">
+      <a href="announcements.php" class="nav-link">
         <i class="bi bi-megaphone"></i> <span>Announcements</span>
       </a>
-      <a href="gallery.html" class="nav-link">
+      <a href="gallery.php" class="nav-link">
         <i class="bi bi-images"></i> <span>Gallery</span>
       </a>
-      <a href="reports.html" class="nav-link">
+      <a href="reports.php" class="nav-link">
         <i class="bi bi-file-earmark-bar-graph"></i> <span>Reports</span>
       </a>
-      <a href="feedback.html" class="nav-link">
+      <a href="feedback.php" class="nav-link">
         <i class="bi bi-chat-square-text"></i> <span>Feedback</span>
       </a>
     </nav>
@@ -51,7 +108,7 @@
       <img src="ACCESS.jpg" alt="Admin User" class="user-image">
       <h6 class="mb-0 text-white">Admin User</h6>
       <small class="text-white-50">Administrator</small>
-      <a href="login.html" class="btn btn-outline-light btn-sm w-100 mt-3">
+      <a href="login.php" class="btn btn-outline-light btn-sm w-100 mt-3">
         <i class="bi bi-box-arrow-right me-1"></i> Log Out
       </a>
     </div>
@@ -62,21 +119,7 @@
     <!-- Page header -->
     <header class="page-header d-flex justify-content-between align-items-center">
       <h1 class="h3 mb-0">Admin Dashboard</h1>
-      <div class="d-flex align-items-center">
-        <div class="dropdown me-3">
-          <button class="btn btn-light position-relative notification-badge shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-danger">3</span>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><h6 class="dropdown-header">Notifications</h6></li>
-            <li><a class="dropdown-item" href="#"><i class="bi bi-person-plus me-2 text-success"></i> New membership request</a></li>
-            <li><a class="dropdown-item" href="#"><i class="bi bi-chat-left-text me-2 text-info"></i> Event feedback received</a></li>
-            <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-up-circle me-2 text-warning"></i> System update available</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-center" href="#">View all notifications</a></li>
-          </ul>
-        </div>
+     
         <div class="dropdown">
           <button class="btn btn-light d-flex align-items-center shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="ACCESS.jpg" alt="Admin" class="rounded-circle me-2" width="32" height="32">
@@ -86,7 +129,7 @@
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i> Settings</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Log Out</a></li>
+            <li><a class="dropdown-item" href="login.php"><i class="bi bi-box-arrow-right me-2"></i> Log Out</a></li>
           </ul>
         </div>
       </div>
@@ -109,121 +152,7 @@
         </div>
       </div>
       
-      <!-- Stats cards -->
-      <section class="stats mb-5">
-        <div class="row g-4">
-          <div class="col-md-3 col-sm-6">
-            <div class="stat-card">
-              <div class="d-flex align-items-center">
-                <div class="icon bg-primary-subtle text-primary">
-                  <i class="bi bi-people"></i>
-                </div>
-                <div>
-                  <h3>156</h3>
-                  <p class="text-muted mb-0">Total Members</p>
-                </div>
-              </div>
-              <div class="progress">
-                <div class="progress-bar bg-primary" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 col-sm-6">
-            <div class="stat-card">
-              <div class="d-flex align-items-center">
-                <div class="icon bg-success-subtle text-success">
-                  <i class="bi bi-calendar-check"></i>
-                </div>
-                <div>
-                  <h3>12</h3>
-                  <p class="text-muted mb-0">Upcoming Events</p>
-                </div>
-              </div>
-              <div class="progress">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 col-sm-6">
-            <div class="stat-card">
-              <div class="d-flex align-items-center">
-                <div class="icon bg-warning-subtle text-warning">
-                  <i class="bi bi-graph-up"></i>
-                </div>
-                <div>
-                  <h3>85%</h3>
-                  <p class="text-muted mb-0">Attendance Rate</p>
-                </div>
-              </div>
-              <div class="progress">
-                <div class="progress-bar bg-warning" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 col-sm-6">
-            <div class="stat-card">
-              <div class="d-flex align-items-center">
-                <div class="icon bg-info-subtle text-info">
-                  <i class="bi bi-chat-square-text"></i>
-                </div>
-                <div>
-                  <h3>24</h3>
-                  <p class="text-muted mb-0">New Feedback</p>
-                </div>
-              </div>
-              <div class="progress">
-                <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      <!-- Admin quick actions -->
-      <section class="quick-actions mb-5">
-        <h2 class="h4 mb-4">Quick Actions</h2>
-        <div class="row g-4">
-          <div class="col-lg-3 col-md-6">
-            <div class="admin-action">
-              <i class="bi bi-megaphone"></i>
-              <h3 class="h5">Create Announcement</h3>
-              <p class="text-muted mb-3">Post important information for all members</p>
-              <a href="announcements-create.html" class="btn btn-primary mt-auto">
-                <i class="bi bi-plus-circle me-1"></i> Create New
-              </a>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6">
-            <div class="admin-action">
-              <i class="bi bi-calendar-plus"></i>
-              <h3 class="h5">Schedule Event</h3>
-              <p class="text-muted mb-3">Plan and organize upcoming activities</p>
-              <a href="events-create.html" class="btn btn-primary mt-auto">
-                <i class="bi bi-plus-circle me-1"></i> Add Event
-              </a>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6">
-            <div class="admin-action">
-              <i class="bi bi-person-plus"></i>
-              <h3 class="h5">Add Member</h3>
-              <p class="text-muted mb-3">Register new members to the organization</p>
-              <a href="members-add.html" class="btn btn-primary mt-auto">
-                <i class="bi bi-plus-circle me-1"></i> Register
-              </a>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6">
-            <div class="admin-action">
-              <i class="bi bi-file-earmark-arrow-down"></i>
-              <h3 class="h5">Generate Report</h3>
-              <p class="text-muted mb-3">Create reports for organization activities</p>
-              <a href="reports-generate.html" class="btn btn-primary mt-auto">
-                <i class="bi bi-plus-circle me-1"></i> Generate
-              </a>
-            </div>
-          </div>
-        </div>
+     
       </section>
       
       <div class="row g-4 mb-4">

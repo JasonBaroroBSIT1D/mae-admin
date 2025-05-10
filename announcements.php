@@ -20,28 +20,28 @@
     </div>
     
     <nav class="nav flex-column mb-auto">
-      <a href="index.html" class="nav-link">
+      <a href="index.php" class="nav-link">
         <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
       </a>
-      <a href="members.html" class="nav-link">
+      <a href="members.php" class="nav-link">
         <i class="bi bi-people"></i> <span>Members</span>
       </a>
-      <a href="events.html" class="nav-link">
+      <a href="events.php" class="nav-link">
         <i class="bi bi-calendar-event"></i> <span>Events</span>
       </a>
-      <a href="attendance.html" class="nav-link">
+      <a href="attendance.php" class="nav-link">
         <i class="bi bi-person-check"></i> <span>Attendance</span>
       </a>
-      <a href="announcements.html" class="nav-link active">
+      <a href="announcements.php" class="nav-link active">
         <i class="bi bi-megaphone"></i> <span>Announcements</span>
       </a>
-      <a href="gallery.html" class="nav-link">
+      <a href="gallery.php" class="nav-link">
         <i class="bi bi-images"></i> <span>Gallery</span>
       </a>
-      <a href="reports.html" class="nav-link">
+      <a href="reports.php" class="nav-link">
         <i class="bi bi-file-earmark-bar-graph"></i> <span>Reports</span>
       </a>
-      <a href="feedback.html" class="nav-link">
+      <a href="feedback.php" class="nav-link">
         <i class="bi bi-chat-square-text"></i> <span>Feedback</span>
       </a>
     </nav>
@@ -50,7 +50,7 @@
       <img src="ACCESS.jpg" alt="Admin User" class="user-image">
       <h6 class="mb-0 text-white">Admin User</h6>
       <small class="text-white-50">Administrator</small>
-      <a href="login.html" class="btn btn-outline-light btn-sm w-100 mt-3">
+      <a href="login.php" class="btn btn-outline-light btn-sm w-100 mt-3">
         <i class="bi bi-box-arrow-right me-1"></i> Log Out
       </a>
     </div>
@@ -61,21 +61,7 @@
     <!-- Page header -->
     <header class="page-header d-flex justify-content-between align-items-center">
       <h1 class="h3 mb-0">Announcements</h1>
-      <div class="d-flex align-items-center">
-        <div class="dropdown me-3">
-          <button class="btn btn-light position-relative notification-badge shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-danger">3</span>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><h6 class="dropdown-header">Notifications</h6></li>
-            <li><a class="dropdown-item" href="#"><i class="bi bi-person-plus me-2 text-success"></i> New membership request</a></li>
-            <li><a class="dropdown-item" href="#"><i class="bi bi-chat-left-text me-2 text-info"></i> Event feedback received</a></li>
-            <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-up-circle me-2 text-warning"></i> System update available</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item text-center" href="#">View all notifications</a></li>
-          </ul>
-        </div>
+      
         <div class="dropdown">
           <button class="btn btn-light d-flex align-items-center shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="ACCESS.jpg" alt="Admin" class="rounded-circle me-2" width="32" height="32">
@@ -85,7 +71,7 @@
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i> Settings</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i> Log Out</a></li>
+            <li><a class="dropdown-item" href="login.php"><i class="bi bi-box-arrow-right me-2"></i> Log Out</a></li>
           </ul>
         </div>
       </div>
